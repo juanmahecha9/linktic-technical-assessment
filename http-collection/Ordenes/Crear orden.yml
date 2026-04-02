@@ -1,0 +1,29 @@
+info:
+  name: Crear orden
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/{{prefix}}/orders"
+  headers:
+    - name: Authorization
+      value: Bearer {{access_token}}
+  body:
+    type: json
+    data: |-
+      {
+        "products": [
+          {
+            "productId": "1ef7f588-361f-4402-aaee-725e96163be7",
+            "quantity": 98
+          }
+        ]
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,42 @@
+info:
+  name: Detalle del producto
+  type: http
+  seq: 3
+
+http:
+  method: GET
+  url: "{{base_url}}/{{prefix}}/products/:id"
+  headers:
+    - name: Authorization
+      value: Bearer {{access_token}}
+  params:
+    - name: id
+      value: 1ef7f588-361f-4402-aaee-725e96163be7
+      type: path
+  body:
+    type: json
+    data: ""
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        // Verificamos que la respuesta sea exitosa antes de guardar
+        if (res.getStatus() === 200) {
+          const data = res.getBody();
+
+          // Guardar el access_token en una variable de entorno
+          if (data.info && data.info.id) {
+            bru.setEnvVar("product_id", data.info.id);
+            console.log("Access Token guardado correctamente");
+          }
+
+         
+        }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

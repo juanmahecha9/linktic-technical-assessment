@@ -1,0 +1,6 @@
+name: local
+variables:
+  - name: base_url
+    value: http://localhost:5000
+  - name: prefix
+    value: api/v1/technical-assessment

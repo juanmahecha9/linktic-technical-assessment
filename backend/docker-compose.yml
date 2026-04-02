@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: linktic_db
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${DB_USER:-linktic_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-w6T07nT4P4Lo}
+      POSTGRES_DB: ${DB_NAME:-technical_assessment_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - linktic_network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: linktic_backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_SYNC=${DB_SYNC:-true}
+    depends_on:
+      - db
+    networks:
+      - linktic_network
+
+networks:
+  linktic_network:
+    driver: bridge
+
+volumes:
+  postgres_data:

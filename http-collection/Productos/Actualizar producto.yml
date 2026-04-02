@@ -1,0 +1,48 @@
+info:
+  name: Actualizar producto
+  type: http
+  seq: 4
+
+http:
+  method: PATCH
+  url: "{{base_url}}/{{prefix}}/products/:id"
+  headers:
+    - name: Authorization
+      value: Bearer {{access_token}}
+  params:
+    - name: id
+      value: 1ef7f588-361f-4402-aaee-725e96163be7
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Motorola Edge 30 Neo",
+        "description": "Smartphone",
+        "price": 999.99,
+        "stock": 1000
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        // Verificamos que la respuesta sea exitosa antes de guardar
+        if (res.getStatus() === 200) {
+          const data = res.getBody();
+
+          // Guardar el access_token en una variable de entorno
+          if (data.info && data.info.id) {
+            bru.setEnvVar("product_id", data.info.id);
+            console.log("Access Token guardado correctamente");
+          }
+
+         
+        }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

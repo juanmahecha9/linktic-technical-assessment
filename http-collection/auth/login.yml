@@ -1,0 +1,43 @@
+info:
+  name: login
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/{{prefix}}/auth/login"
+  body:
+    type: json
+    data: |-
+      {
+        "email": "user@example.com",
+        "password": "password123"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        // Verificamos que la respuesta sea exitosa antes de guardar
+        if (res.getStatus() === 200) {
+          const data = res.getBody();
+
+          // Guardar el access_token en una variable de entorno
+          if (data.info && data.info.access_token) {
+            bru.setEnvVar("access_token", data.info.access_token);
+            console.log("Access Token guardado correctamente");
+          }
+
+          // Guardar el user.id en una variable de entorno
+          if (data.info && data.info.user && data.info.user.id) {
+            bru.setEnvVar("user_id", data.info.user.id);
+            console.log("User ID guardado correctamente:", data.info.user.id);
+          }
+        }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
