@@ -16,6 +16,12 @@ Este proyecto consiste en una plataforma de e-commerce simplificada desarrollada
    ```
 5. Configurar las variables de entorno en un archivo `.env` (se puede usar el archivo `.env.dev` como referencia).
 
+## Despliegue en Producción
+
+La aplicación está desplegada en **Vercel** y disponible en la siguiente URL:
+
+**https://linktic-technical-assessment.vercel.app/**
+
 ## Pasos para Ejecutar el Proyecto
 
 ### Localmente con Docker (Recomendado)
@@ -65,3 +71,7 @@ Toda la API está documentada utilizando Swagger (OpenAPI 3.0), accesible en `/a
 - **`backend/`**: Código fuente de NestJS, configuración de Docker y documentación.
 - **`container/`**: Archivos Docker para la base de datos PostgreSQL.
 - **`http-collection/`**: Colecciones de Bruno y recursos de la herramienta Kayser para pruebas de carga.
+
+## Pruebas de la API
+
+Las pruebas de los endpoints se encuentran disponibles en los **environments de Bruno** y en la **colección HTTP** ubicada en el directorio `http-collection/`. Estas colecciones incluyen los requests preconfigurados para probar todos los endpoints de la API, tanto en entorno local como en producción (Vercel).
