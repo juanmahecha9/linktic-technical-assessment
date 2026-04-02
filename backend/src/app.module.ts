@@ -27,6 +27,9 @@ import { AuthGuard } from './core/guards/auth/auth.guard';
         database: configService.get<string>('DB_NAME'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: configService.get<string>('DB_SYNC') === 'true',
+        ssl: configService.get<string>('DB_SSL') === 'true'
+          ? { rejectUnauthorized: false }
+          : false,
       }),
     }),
     AuthModule,
