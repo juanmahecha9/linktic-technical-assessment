@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
-@Entity({ name: 'users', schema: 'auth' })
+@Entity({ name: 'users', schema: 'authv2' })
 export class User {
   @ApiProperty({ example: '550e8400-e29b-41d2-a716-446655440000' })
   @PrimaryGeneratedColumn('uuid')
