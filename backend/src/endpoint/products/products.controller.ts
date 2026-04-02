@@ -8,7 +8,7 @@ import {
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Public } from 'src/core/decorators/public.decorator';
+import { Public } from '../../core/decorators/public.decorator';
 
 @ApiTags('products')
 @Controller('products')
