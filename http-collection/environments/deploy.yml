@@ -1,0 +1,6 @@
+name: deploy
+variables:
+  - name: base_url
+    value: "11"
+  - name: prefix
+    value: api/v1/technical-assessment

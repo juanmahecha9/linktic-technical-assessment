@@ -19,7 +19,7 @@ La aplicación está configurada para correr en el puerto **5000** por defecto.
 pnpm install
 ```
 
-2. Configurar el archivo `backend/.env` con las credenciales de tu base de datos (puedes usar el archivo `.env` local).
+2. Configurar el archivo `backend/.env` con las credenciales de tu base de datos. Se ha dejado un ejemplo en **`.env.dev`** con la configuración lista para el entorno local de Docker.
 
 3. Correr en modo desarrollo:
 
