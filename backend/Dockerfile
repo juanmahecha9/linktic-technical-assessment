@@ -1,38 +1,38 @@
-# Stage 1: Build
+# --- Etapa 1: Construcción (Builder) ---
 FROM node:20-alpine AS builder
 
 # Instalar pnpm globalmente
 RUN npm install -g pnpm
 
+# Establecer directorio de trabajo
 WORKDIR /app
 
-# Copiar package.json y el lockfile SOLO si existe (el * evita el error)
+# Copiar archivos de definición de dependencias
+# Usamos comodines (*) para que no falle si no encuentra el lockfile
 COPY package.json pnpm-lock.yaml* ./
 
-# Instalar dependencias (quitamos --frozen-lockfile para evitar errores de mismatch)
+# Instalar todas las dependencias (incluyendo devDependencies para build)
 RUN pnpm install
 
-# Copiar el resto del código
+# Copiar el resto del código fuente del backend
 COPY . .
 
-# Construir la aplicación
+# Ejecutar el build de NestJS (genera la carpeta dist)
 RUN pnpm run build
 
-# Stage 2: Production
-FROM node:20-alpine
+# --- Etapa 2: Producción (Runner) ---
+FROM node:20-alpine AS runner
 
 WORKDIR /app
 
-# No necesitas pnpm en producción si solo vas a ejecutar 'node dist/main'
-# pero dejamos la imagen limpia
-
-# Copiar solo lo necesario desde el builder
+# Copiar solo lo necesario desde el builder para que la imagen sea ligera
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 
-# Exponer el puerto que configuraste en Nest (asegurate que sea el mismo)
+# Variable de entorno para el puerto (Render/Railway suelen usar la que tú definas)
+ENV PORT=5000
 EXPOSE 5000
 
-# Comando para iniciar la aplicación
+# Comando final para arrancar la aplicación
 CMD ["node", "dist/main"]
